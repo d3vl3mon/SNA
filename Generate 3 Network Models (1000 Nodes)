@@ -1,0 +1,23 @@
+import networkx as nx
+
+n = 1000
+
+# Random Graph
+G1 = nx.erdos_renyi_graph(n, 0.01)
+
+# Small World
+G2 = nx.watts_strogatz_graph(n, 10, 0.1)
+
+# Scale-Free
+G3 = nx.barabasi_albert_graph(n, 5)
+
+def analyze(G, name):
+    print(f"\n{name}")
+    print("Nodes:", G.number_of_nodes())
+    print("Edges:", G.number_of_edges())
+    print("Clustering:", nx.average_clustering(G))
+    print("Path Length:", nx.average_shortest_path_length(G))
+
+analyze(G1, "Random Graph")
+analyze(G2, "Small World")
+analyze(G3, "Scale-Free")
