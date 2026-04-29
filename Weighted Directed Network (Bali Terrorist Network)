@@ -1,0 +1,33 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# Create directed weighted graph (sample structure)
+G = nx.DiGraph()
+
+edges = [
+    (1,2,3),(2,3,2),(3,4,5),(4,2,1),
+    (2,5,4),(5,6,2),(6,3,3),(6,7,1)
+]
+
+G.add_weighted_edges_from(edges)
+
+# In-degree
+in_deg = dict(G.in_degree())
+
+# Node sizes (scale)
+node_sizes = [in_deg[n]*500 for n in G.nodes()]
+
+# Edge widths
+edge_widths = [G[u][v]['weight'] for u,v in G.edges()]
+
+# Draw
+pos = nx.spring_layout(G)
+nx.draw(G, pos,
+        with_labels=True,
+        node_size=node_sizes,
+        width=edge_widths,
+        node_color='skyblue',
+        arrows=True)
+
+plt.title("Weighted Directed Network (Bali Terrorist)")
+plt.show()
