@@ -1,0 +1,28 @@
+import networkx as nx
+import random
+import matplotlib.pyplot as plt
+
+G = nx.erdos_renyi_graph(100, 0.05)
+
+def simulate_SI(G, steps=20, beta=0.3):
+    infected = set([random.choice(list(G.nodes()))])
+    infected_count = []
+
+    for _ in range(steps):
+        new = set(infected)
+        for node in infected:
+            for nbr in G.neighbors(node):
+                if nbr not in infected and random.random() < beta:
+                    new.add(nbr)
+        infected = new
+        infected_count.append(len(infected))
+
+    return infected_count
+
+res = simulate_SI(G)
+
+plt.plot(res)
+plt.title("SI Model Spread")
+plt.xlabel("Time")
+plt.ylabel("Infected Nodes")
+plt.show()
