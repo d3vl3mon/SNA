@@ -1,0 +1,32 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+from collections import Counter
+import numpy as np
+
+# Load real-world graph
+G = nx.read_gml("polbooks.gml")
+
+# Degree sequence
+degrees = [d for n, d in G.degree()]
+
+# Degree distribution
+degree_count = Counter(degrees)
+deg, cnt = zip(*degree_count.items())
+
+plt.figure()
+plt.bar(deg, cnt)
+plt.title("Degree Distribution")
+plt.xlabel("Degree")
+plt.ylabel("Frequency")
+plt.show()
+
+# Cumulative distribution
+sorted_deg = np.sort(degrees)
+cdf = np.arange(len(sorted_deg)) / float(len(sorted_deg))
+
+plt.figure()
+plt.plot(sorted_deg, cdf)
+plt.title("Cumulative Degree Distribution")
+plt.xlabel("Degree")
+plt.ylabel("CDF")
+plt.show()
