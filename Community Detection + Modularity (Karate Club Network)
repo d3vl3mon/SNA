@@ -1,0 +1,33 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+from networkx.algorithms import community
+
+# Load graph
+G = nx.karate_club_graph()
+
+# --- Greedy Modularity Communities ---
+communities_greedy = community.greedy_modularity_communities(G)
+
+# Convert to list
+communities_list = [list(c) for c in communities_greedy]
+
+# Compute modularity
+modularity = community.modularity(G, communities_greedy)
+
+print("Communities (Greedy):", communities_list)
+print("Modularity:", modularity)
+
+# --- Visualization ---
+pos = nx.spring_layout(G)
+colors = {}
+
+for i, comm in enumerate(communities_list):
+    for node in comm:
+        colors[node] = i
+
+node_colors = [colors[node] for node in G.nodes()]
+
+plt.figure(figsize=(8,6))
+nx.draw(G, pos, node_color=node_colors, with_labels=True, cmap=plt.cm.Set3)
+plt.title("Community Detection (Greedy Modularity)")
+plt.show()
